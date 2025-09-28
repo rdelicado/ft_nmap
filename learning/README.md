@@ -275,9 +275,3 @@ Cuando preguntes algo, di:
 - **Entiende antes de avanzar:** Cada concepto debe estar claro
 
 ---
-
-## 🚀 **¡EMPECEMOS!**
-
-Tu próximo paso es decirme: **"Quiero empezar con la Fase 1"** y comenzaremos con el primer ejercicio de fundamentos de red.
-
-¡Esta va a ser una aventura genial! 🎯🔥
