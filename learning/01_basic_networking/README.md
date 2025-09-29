@@ -1,53 +1,88 @@
 # 🟢 Fase 1: Fundamentos de Red
 
-Bienvenido a tu primera fase. Aquí vas a entender **cómo funciona realmente** la comunicación en redes antes de empezar a hackear con pcap.
-
-## 🎯 **1.1 - Direcciones IP y Puertos**
-
-### **¿Qué es una dirección IP?**
-Una IP es como la **dirección de una casa** en internet:
-- `192.168.1.1` = La "casa" (computadora)
-- Cada número va de 0 a 255
-- Se separan por puntos
-
-### **¿Qué son los puertos?**
-Los puertos son como las **puertas de esa casa**:
-- `192.168.1.1:80` = Casa 192.168.1.1, puerta número 80
-- Cada servicio usa una puerta diferente:
-  - Puerto 80 = Servidor web (HTTP)
-  - Puerto 22 = SSH (conexión remota)
-  - Puerto 443 = HTTPS (web segura)
-  - Puerto 21 = FTP (transferencia archivos)
-
-### **¿Cómo se conectan los programas?**
-Imagina que quieres ver una página web:
-1. Tu navegador se conecta a `google.com:80`
-2. Le dice: "Hola, dame la página principal"
-3. El servidor responde con el HTML
-4. Tu navegador lo muestra bonito
+Esta fase te enseña los **fundamentos de networking** necesarios para entender cómo funciona nmap por dentro. Cada ejercicio incluye teoría detallada, ejemplos prácticos y casos de prueba.
 
 ---
 
-## 🛠️ **EJERCICIO 1.1: Parser básico de IPs**
+## 📋 Planificación de Ejercicios
 
-Vamos a crear tu primer programa que entienda direcciones IP.
+### **Ejercicio 1.1: Parser de Direcciones IP** ✅
+- **Archivo**: [`ejercicio1_1_guia.md`](ejercicio1_1_guia.md)
+- **Objetivo**: Validar y parsear direcciones IPv4
+- **Conceptos**: Direcciones IP, puertos, validación de entrada
+- **Implementación**: `ip_parser.c`
 
-### **Tu misión:**
-Crear un programa que:
-1. Reciba una IP como argumento: `./ejercicio1 192.168.1.1`
-2. La valide (números entre 0-255)
-3. La separe en sus 4 partes
-4. Diga si es válida o no
+### **Ejercicio 1.2: Escáner TCP Básico** ✅  
+- **Archivo**: [`ejercicio1_2_tcp.md`](ejercicio1_2_tcp.md)
+- **Objetivo**: Detectar puertos TCP abiertos usando `connect()`
+- **Conceptos**: TCP, handshake de 3 pasos, sockets, manejo de errores
+- **Implementación**: `tcp_scanner.c`
 
-### **¿Estás listo?**
-Dime **"Sí, vamos con el Ejercicio 1.1"** y te creo el código base para empezar.
+### **Ejercicio 1.3: Exploración UDP** ✅
+- **Archivo**: [`ejercicio1_3_udp.md`](ejercicio1_3_udp.md)  
+- **Objetivo**: Enviar datagramas UDP y detectar respuestas
+- **Conceptos**: UDP, protocolo sin conexión, timeouts, `sendto/recvfrom`
+- **Implementación**: `udp_sender.c`
+
+
+### **Ejercicio 1.4: Fundamentos de Sockets** 🔄
+- **Archivo**: [`ejercicio1_4_sockets.md`](ejercicio1_4_sockets.md)
+- **Objetivo**: Cliente y servidor TCP básicos
+- **Conceptos**: `bind()`, `listen()`, `accept()`, comunicación bidireccional
+- **Implementación**: `echo_server.c` + `echo_client.c`
 
 ---
 
-## 📋 **Progreso Fase 1:**
-- [ ] 1.1 - Direcciones IP y puertos ← **ESTÁS AQUÍ**
-- [ ] 1.2 - Protocolo TCP
-- [ ] 1.3 - Protocolo UDP  
-- [ ] 1.4 - Sockets básicos
+## 🎯 Objetivos de Aprendizaje
 
-¡El primer paso de muchos! 🔥
+Al completar esta fase serás capaz de:
+
+- ✅ **Validar y parsear direcciones IP** usando funciones estándar
+- ✅ **Detectar puertos TCP abiertos** con el método `connect()`  
+- ✅ **Trabajar con UDP** enviando datagramas y manejando respuestas/timeouts
+- 🔄 **Crear aplicaciones cliente-servidor** usando sockets básicos
+- 🔄 **Manejar múltiples conexiones** y errores de red comunes
+
+---
+
+## 🛠️ Herramientas y Conceptos
+
+### Funciones de Red Aprendidas
+- `inet_pton()` → conversión de IP string a binario
+- `socket()` → creación de endpoints de comunicación  
+- `connect()` → establecimiento de conexiones TCP
+- `sendto()/recvfrom()` → comunicación UDP sin conexión
+- `setsockopt()` → configuración avanzada de sockets
+- `bind()/listen()/accept()` → operaciones de servidor
+
+### Estructuras de Datos
+- `struct sockaddr_in` → direcciones IPv4 + puerto
+- `struct timeval` → configuración de timeouts
+- Enums para códigos de estado y constantes
+
+### Conceptos de Red
+- **TCP vs UDP**: diferencias y casos de uso
+- **Network byte order**: `htons()` y conversiones  
+- **Manejo de errores**: `errno`, `perror()`, códigos de retorno
+- **Timeouts y bloqueo**: operaciones síncronas vs asíncronas
+
+---
+
+## 📁 Estructura de Archivos
+
+```
+01_basic_networking/
+├── README.md                    ← Este archivo (planificación)
+├── ejercicio1_1_guia.md        ← Guía detallada del parser IP
+├── ejercicio1_2_tcp.md         ← Guía detallada del escáner TCP  
+├── ejercicio1_3_udp.md         ← Guía detallada del explorador UDP
+├── ejercicio1_4_sockets.md     ← Guía detallada de cliente/servidor
+├── ip_parser.c                 ← Implementación del ejercicio 1.1
+├── tcp_scanner.c               ← Implementación del ejercicio 1.2
+├── udp_sender.c                ← Implementación del ejercicio 1.3
+├── echo_server.c               ← Implementación del ejercicio 1.4 (servidor)
+└── echo_client.c               ← Implementación del ejercicio 1.4 (cliente)
+```
+
+---
+

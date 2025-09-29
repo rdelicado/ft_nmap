@@ -94,6 +94,57 @@ y te diga si el puerto parece **abierto**, **cerrado** o si hubo algún **error 
 
 ---
 
+## 🧰 Funciones y llamadas nuevas en este ejercicio
+
+A diferencia del ejercicio 1.1 (centrado en parsear direcciones IP), aquí empezamos a dialogar con el stack de red del sistema operativo. Estas son las herramientas nuevas que utilizas y qué aporta cada una:
+
+### `socket(AF_INET, SOCK_STREAM, 0)`
+- **Qué hace:** pide al kernel que cree un endpoint de comunicación orientado a conexión (TCP).
+- **Parámetros clave:**
+  - `AF_INET` → familia de direcciones IPv4.
+  - `SOCK_STREAM` → indica flujo fiable (TCP).
+  - `0` → protocolo por defecto para la combinación (el kernel elige TCP).
+- **Valor devuelto:** descriptor de fichero ≥ 0 si todo va bien; `-1` si hay error (por ejemplo, límite de sockets abiertos).
+- **Por qué lo necesitas:** sin este descriptor no puedes iniciar el handshake TCP.
+
+### `struct sockaddr_in`
+- **Qué hace:** representa una dirección IPv4 + puerto en formato binario que entiende el kernel.
+- **Campos relevantes:**
+  - `sin_family` → debe ser `AF_INET` para IPv4.
+  - `sin_port` → puerto en *network byte order* (debes convertirlo con `htons`).
+  - `sin_addr` → dirección IP preparada con `inet_pton`.
+- **Por qué lo necesitas:** todas las llamadas de red (`connect`, `send`, etc.) esperan direcciones empaquetadas en esta estructura.
+
+### `htons(puerto)`
+- **Qué hace:** convierte un entero de orden de bytes de host a orden de red (big-endian).
+- **Por qué lo necesitas:** el estándar TCP/IP exige que los puertos viajen en orden de red; si no conviertes, el kernel interpreta otra cifra.
+
+### `inet_pton(AF_INET, ip_string, &sockaddr.sin_addr)`
+- **Qué hace:** transforma una IP escrita como texto (`"192.168.1.10"`) a su representación binaria.
+- **Valor devuelto:** `1` si la cadena es una IPv4 válida, `0` si es texto pero no IP, `-1` si hay error de sistema.
+- **Por qué lo necesitas:** `struct sockaddr_in` guarda la IP como un número (`in_addr`), no como string.
+
+### `connect(socket_fd, (struct sockaddr *)&sockaddr, sizeof(sockaddr))`
+- **Qué hace:** inicia el *three-way handshake* con el host y puerto de destino usando el socket ya creado.
+- **Resultado esperado:**
+  - `0` → el handshake se completó; el puerto está aceptando conexiones.
+  - `-1` → algo salió mal; revisas `errno` para saber si fue rechazo (`ECONNREFUSED`), timeout (`ETIMEDOUT`), red inalcanzable, etc.
+- **Por qué lo necesitas:** te permite inferir el estado del puerto sin construir paquetes a mano.
+
+### `close(socket_fd)`
+- **Qué hace:** libera el descriptor y notifica al kernel que puede cerrar la conexión (si existía).
+- **Por qué lo necesitas:** evitar fugas de recursos y dejar el estado del sistema limpio para pruebas sucesivas.
+
+### `errno` y `strerror(errno)`
+- **Qué hacen:**
+  - `errno` guarda el motivo del último fallo de system call en el hilo actual.
+  - `strerror` convierte ese código en un mensaje legible.
+- **Por qué lo necesitas:** según `errno` puedes distinguir entre puerto cerrado (`ECONNREFUSED`), timeout (`ETIMEDOUT`), IP inválida (`EHOSTUNREACH`), etc., y mostrar un mensaje claro en pantalla.
+
+> 📝 **Tip:** si varias llamadas pueden fallar, lee `errno` inmediatamente después de cada una. Llamadas posteriores pueden sobrescribirlo.
+
+---
+
 ## ✅ Checklist del ejercicio
 - [ ] Validar IP con `inet_pton` y mostrar error si es inválida.
 - [ ] Validar que el puerto sea numérico y esté entre 1 y 65535.
