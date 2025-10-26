@@ -1,68 +1,26 @@
-# Ejecutable
+# Ejecutable del proyecto
 ft_nmap
 
 # Archivos objeto y compilación
 *.o
 *.a
 *.so
-*.dylib
-obj/
+
+# Archivos de depuración
 *.dSYM/
-
-# Archivos de debug
 *.gdb
-*.core
-core
 
-# Archivos temporales del editor
-*~
+# Core dumps (solo archivos, no directorios)
+core.*
+vgcore.*
+
+# Archivos temporales y editores
 *.swp
 *.swo
-.*.swp
-.*.swo
-*.tmp
-*.bak
+*~
 .vscode/
-.idea/
-*.sublime-*
-
-# Archivos de sistema
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
 
-# Logs y archivos de debug
-*.log
-*.out
-valgrind-out.txt
-gmon.out
-*.gcov
-*.gcda
-*.gcno
-
-# Archivos de configuración local
-.env
-.env.local
-config.local
-
-# Archivos de captura pcap (pueden ser grandes)
-*.pcap
-*.cap
-*.dump
-
-# Dependencias y builds
-build/
-dist/
-*.tar.gz
-*.zip
-
-# Test outputs
-test_results/
-coverage/
-
-# Backup files
-*.orig
+# Directorios de prueba
+test/
+pcaps/
