@@ -52,7 +52,7 @@ void	print_help()
 
 int main(int ac, char **av)
 {
-	if (ac < 2)
+	if (ac < 2 || av[1][0] == ' ' || av[1][0] == '\0')
 	{
 		print_help();
 		return EXIT_FAILURE;
