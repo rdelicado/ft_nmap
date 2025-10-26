@@ -11,14 +11,14 @@
 
 ## Tabla de Argumentos y Formatos Aceptados
 
-| Argumento | Obligatorio/Opcional | Tipo de valor | Formatos válidos | Valores permitidos/límites | Valor por defecto | Ejemplos | Notas/Validaciones |
-|-----------|---------------------|---------------|------------------|---------------------------|-------------------|----------|-------------------|
-| `--help` | Opcional | Flag | Ninguno (solo presencia) | — | `false` | `--help` | Muestra ayuda y termina |
-| `--ip` | Recomendado si no hay `--file` | String | IPv4 (x.x.x.x) o hostname/FQDN | IPv4: 4 octetos 0–255<br>FQDN: formato básico (letras/números/-/.) | — | `--ip 192.168.1.10`<br>`--ip example.com` | Debe permitir múltiples llamadas. No obligatorio resolver DNS en el parser |
-| `--file` | Recomendado si no hay `--ip` | String (ruta) | Ruta a fichero de texto | Archivo con lista de objetivos (IPs o hostnames) | — | `--file targets.txt` | Parser debe leer todas las entradas; ignorar líneas vacías y comentarios opcionales |
-| `--ports` | Opcional | String | Rango `N-M`, lista CSV `P1,P2,...`, o mezcla `1,3-7,22` | Puertos: 1–65535<br>Máximo 1024 puertos totales | `1-1024` | `--ports 80`<br>`--ports 1-1024`<br>`--ports 22,80,443`<br>`--ports 1,5-15,80` | Expandir rangos y deduplicar. Si total > 1024 → error. Validar N ≤ M en rangos |
-| `--speedup` | Opcional | Entero | Decimal entero positivo o 0 | 0 ≤ valor ≤ 250 | `0` | `--speedup 70`<br>`--speedup 0` | Representa número de hilos. 0 puede significar valor por defecto del scheduler |
-| `--scan` | Opcional | String (lista CSV) | Tokens: `SYN`, `ACK`, etc. | `SYN`, `NULL`, `ACK`, `FIN`, `XMAS`, `UDP` (case-insensitive) | Todos los tipos | `--scan SYN`<br>`--scan SYN,ACK,UDP` | Permitir combinaciones; ignorar duplicados; tokens desconocidos → error |
+| Argumento | Tipo de valor | Formatos válidos | Valores permitidos/límites | Valor por defecto | Ejemplos | Notas/Validaciones |
+|-----------|---------------|------------------|---------------------------|-------------------|----------|-------------------|
+| `--help` | Flag | Ninguno (solo presencia) | — | `false` | `--help` | Muestra ayuda y termina |
+| `--ip` | String | IPv4 (x.x.x.x) o hostname/FQDN | IPv4: 4 octetos 0–255<br>FQDN: formato básico (letras/números/-/.) | — | `--ip 192.168.1.10`<br>`--ip example.com` | Debe permitir múltiples llamadas. No obligatorio resolver DNS en el parser |
+| `--file` | String (ruta) | Ruta a fichero de texto | Archivo con lista de objetivos (IPs o hostnames) | — | `--file targets.txt` | Parser debe leer todas las entradas; ignorar líneas vacías y comentarios opcionales |
+| `--ports` | String | Rango `N-M`, lista CSV `P1,P2,...`, o mezcla `1,3-7,22` | Puertos: 1–65535<br>Máximo 1024 puertos totales | `1-1024` | `--ports 80`<br>`--ports 1-1024`<br>`--ports 22,80,443`<br>`--ports 1,5-15,80` | Expandir rangos y deduplicar. Si total > 1024 → error. Validar N ≤ M en rangos |
+| `--speedup` | Entero | Decimal entero positivo o 0 | 0 ≤ valor ≤ 250 | `0` | `--speedup 70`<br>`--speedup 0` | Representa número de hilos. 0 puede significar valor por defecto del scheduler |
+| `--scan` | String (lista CSV) | Tokens: `SYN`, `ACK`, etc. | `SYN`, `NULL`, `ACK`, `FIN`, `XMAS`, `UDP` (case-insensitive) | Todos los tipos | `--scan SYN`<br>`--scan SYN,ACK,UDP` | Permitir combinaciones; ignorar duplicados; tokens desconocidos → error |
 
 ---
 
