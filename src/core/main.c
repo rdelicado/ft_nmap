@@ -52,11 +52,16 @@ void	print_help()
 
 int main(int ac, char **av)
 {
-	if (ac < 2 || av[1][0] == ' ' || av[1][0] == '\0')
+	t_config	config;
+	
+	if (!parse_args(ac, av, &config))
 	{
 		print_help();
-		return EXIT_FAILURE;
+		return (EXIT_FAILURE);
 	}
-	(void)av;
-	return (0);
+	
+	// Aquí irá la lógica del programa usando config
+	
+	//free(config);
+	return (EXIT_SUCCESS);
 }
