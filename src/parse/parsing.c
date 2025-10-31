@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 22:03:56 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/10/28 22:50:44 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/10/31 09:24:53 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,14 @@ int	parse_args(int ac, char **av, t_config *config)
 	if (strcmp(av[1], "--help") == 0)
 		return (0);
 	
-	
 	init_config(config);
 	
 	// Aquí irá el parsing real de los argumentos
-	(void)av;
+	
+	for (int i = 0; i < ac; i++)
+	{
+		
+	}
 	
 	return (1);
 }
