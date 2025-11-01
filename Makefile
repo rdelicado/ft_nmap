@@ -13,13 +13,23 @@ LIBS        = -lm
 THREAD_LIBS = -pthread
 
 # --- PCAP (requerido) --- #
-PCAP_PKG     = libpcap
-PCAP_CFLAGS := $(shell pkg-config --cflags $(PCAP_PKG) 2>/dev/null)
-PCAP_LIBS   := $(shell pkg-config --libs   $(PCAP_PKG) 2>/dev/null)
+# Detectar sistema operativo
+UNAME_S := $(shell uname -s)
 
-# Fallback: si no hay pkg-config, intenta -lpcap
-ifeq ($(PCAP_LIBS),)
-  PCAP_LIBS   = -lpcap
+ifeq ($(UNAME_S),Darwin)
+	# macOS: libpcap viene preinstalado
+	PCAP_CFLAGS =
+	PCAP_LIBS   = -lpcap
+else
+	# Linux: usar pkg-config si está disponible
+	PCAP_PKG     = libpcap
+	PCAP_CFLAGS := $(shell pkg-config --cflags $(PCAP_PKG) 2>/dev/null)
+	PCAP_LIBS   := $(shell pkg-config --libs   $(PCAP_PKG) 2>/dev/null)
+	
+	# Fallback: si no hay pkg-config
+	ifeq ($(PCAP_LIBS),)
+		PCAP_LIBS = -lpcap
+	endif
 endif
 
 CFLAGS  += $(PCAP_CFLAGS)
@@ -44,10 +54,22 @@ NC          = \033[0m
 all: check-pcap $(NAME)
 
 check-pcap:
-	@if ! pkg-config --exists libpcap 2>/dev/null && [ ! -f /usr/include/pcap/pcap.h ] && [ ! -f /usr/include/pcap.h ]; then \
+ifeq ($(UNAME_S),Darwin)
+	@if [ ! -f /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/pcap/pcap.h ] && \
+		[ ! -f /usr/local/include/pcap/pcap.h ] && \
+		[ ! -f /opt/homebrew/include/pcap/pcap.h ]; then \
+		printf "$(RED)[!] libpcap no encontrada en macOS.$(NC)\n"; \
+		printf "$(YELLOW)[i] Ejecuta 'make deps' para ver las instrucciones de instalación.$(NC)\n"; \
+		exit 1; \
+	fi
+else
+	@if ! pkg-config --exists libpcap 2>/dev/null && \
+		[ ! -f /usr/include/pcap/pcap.h ] && \
+		[ ! -f /usr/include/pcap.h ]; then \
 		printf "$(RED)[!] libpcap no encontrada. Ejecuta 'make deps' para instalar dependencias.$(NC)\n"; \
 		exit 1; \
 	fi
+endif
 
 $(NAME): $(OBJ_FILES)
 	@printf "$(GREEN)[✔] Enlazando objetos...$(NC)\n"
@@ -75,6 +97,19 @@ re: fclean all
 
 # --- Dependencias del sistema --- #
 deps:
+ifeq ($(UNAME_S),Darwin)
+	@printf "$(YELLOW)╔════════════════════════════════════════════════════════╗$(NC)\n"
+	@printf "$(YELLOW)║          Instalación de dependencias - macOS          ║$(NC)\n"
+	@printf "$(YELLOW)╚════════════════════════════════════════════════════════╝$(NC)\n"
+	@printf "\n"
+	@printf "$(BLUE)[1] Xcode Command Line Tools (RECOMENDADO):$(NC)\n"
+	@printf "    xcode-select --install\n"
+	@printf "\n"
+	@printf "$(BLUE)[2] Homebrew (alternativa):$(NC)\n"
+	@printf "    brew install libpcap\n"
+	@printf "\n"
+	@printf "$(YELLOW)[i] Después de instalar, ejecuta 'make' de nuevo.$(NC)\n"
+else
 	@if command -v apt-get >/dev/null 2>&1; then \
 		printf "$(YELLOW)[i] Instalando deps con apt-get...$(NC)\n"; \
 		sudo apt-get update && sudo apt-get install -y build-essential libpcap-dev pkg-config; \
@@ -91,15 +126,7 @@ deps:
 		printf "$(RED)[!] No se detectó gestor de paquetes.$(NC)\n"; \
 		printf "$(YELLOW)Instala manualmente: gcc make libpcap-dev pkg-config$(NC)\n"; \
 	fi
-
-# --- Capacidades para ejecutar sin root (Linux) --- #
-# cap: $(NAME)
-#	@echo "$(YELLOW)[i] Asignando CAP_NET_RAW,CAP_NET_ADMIN a $(NAME)$(NC)"
-#	@sudo setcap cap_net_raw,cap_net_admin=eip ./$(NAME) || true
-#	@echo "$(GREEN)[✔] Hecho. Si falla, ejecuta como root o usa sudo al correr el binario.$(NC)"
-
-# uncap:
-#	@sudo setcap -r ./$(NAME) || true
+endif
 
 # --- PHONY --- #
 .PHONY: all clean fclean re deps check-pcap
