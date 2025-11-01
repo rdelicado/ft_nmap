@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 15:15:53 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/11/01 12:38:18 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/11/01 19:54:34 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ typedef struct s_config
 } t_config;
 
 // Parser
-int		parse_args(int ac, char **av, t_config *config);
 void	print_help(void);
-void	init_config(t_config *config);
-int		parse_scan_types(char *av, t_config *config);
-void	print_scan_status(t_config *config);
-
+int		parse_args(int ac, char **av, t_config *config);
+int		parse_scan(char *av, t_config *config);
+int		parse_ports(char *av, t_config *config);
+int		parse_speedup(char *av, t_config *config);
 #endif
