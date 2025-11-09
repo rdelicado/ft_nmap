@@ -73,7 +73,7 @@ endif
 
 $(NAME): $(OBJ_FILES)
 	@printf "$(GREEN)[✔] Enlazando objetos...$(NC)\n"
-	@$(CC) $(CFLAGS) $(OBJ_FILES) -o $@ $(LIBS) $(THREAD_LIBS)
+	@$(CC) $(CFLAGS) $(OBJ_FILES) -o $@ $(LIBS) $(THREAD_LIBS) 
 	@printf "$(GREEN)[✔] $(NAME) compilado correctamente!$(NC)\n"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)

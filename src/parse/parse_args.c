@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 22:03:56 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/11/01 19:49:24 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/11/09 16:13:01 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,18 @@ int	parse_args(int ac, char **av, t_config *config)
 			if (!parse_speedup(av[i + 1], config))
 				return (0);
 			i++;
+		}
+		else if (strcmp(av[i], "--filename") == 0)
+		{
+			if (i + 1 >= ac)
+				return (0);
+			if (!parse_file(av[i + 1], config))
+				return (0);
+			i++;
+		}
+		else if (av[i][0] != '-')
+		{
+			parse_ip(av[i], config);
 		}
 		i++;
 	}

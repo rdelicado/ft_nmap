@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 15:15:53 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/11/01 19:54:34 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/11/09 16:32:54 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <string.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <arpa/inet.h>
+# include <netdb.h>
 
 // Structs
 
@@ -43,4 +45,7 @@ int		parse_args(int ac, char **av, t_config *config);
 int		parse_scan(char *av, t_config *config);
 int		parse_ports(char *av, t_config *config);
 int		parse_speedup(char *av, t_config *config);
+int		parse_file(char *av, t_config *config);
+int		parse_ip(char *av, t_config *config);
+
 #endif
