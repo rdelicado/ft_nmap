@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 22:03:56 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/11/09 16:13:01 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/11/09 16:36:42 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,12 @@ int	parse_args(int ac, char **av, t_config *config)
 			parse_ip(av[i], config);
 		}
 		i++;
+	}
+
+	if (!config->ip_address && !config->file_name)
+	{
+		printf("Error: no target specified (IP of --filename required)\n");
+		return (0);
 	}
 	return (1);
 }

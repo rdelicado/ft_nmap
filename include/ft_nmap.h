@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 15:15:53 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/11/09 16:32:54 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/11/09 16:44:59 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,28 @@
 # include <netdb.h>
 
 // Structs
+typedef struct s_target
+{
+	char			*hostname;
+	char			*ip;
+	struct s_target	*next;
+}	t_target;
 
 typedef struct s_config 
 {
-	char 	*ip_address;
-	char 	*file_name;
-	int		speedup;
-	int 	ports[65536];
-	int 	thread_count;
-	bool 	scan_syn;
-	bool 	scan_null;
-	bool 	scan_ack;
-	bool 	scan_fin;
-	bool 	scan_xmas;
-	bool 	scan_udp;
-	bool 	show_help;
+	char 		*ip_address;
+	char 		*file_name;
+	int			speedup;
+	int 		thread_count;
+	bool 		scan_syn;
+	bool 		scan_null;
+	bool 		scan_ack;
+	bool 		scan_fin;
+	bool 		scan_xmas;
+	bool 		scan_udp;
+	bool 		show_help;
+	uint8_t 	ports[65536];
+	t_target	*targets;
 } t_config;
 
 // Parser
@@ -47,5 +54,14 @@ int		parse_ports(char *av, t_config *config);
 int		parse_speedup(char *av, t_config *config);
 int		parse_file(char *av, t_config *config);
 int		parse_ip(char *av, t_config *config);
+
+// Utils.c
+void	free_config(t_config *config);
+void	free_targets(t_target *target);
+
+// otros.c
+char	*resolve_hostname(const char *hostname);
+int		read_targets_from_file(const char *filename, t_config *config);
+int		build_target_list(t_config *config);
 
 #endif

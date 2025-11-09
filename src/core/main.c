@@ -62,6 +62,6 @@ int main(int ac, char **av)
 	
 	// Aquí irá la lógica del programa usando config
 	
-	//free(config);
+	free_config(&config);
 	return (EXIT_SUCCESS);
 }
