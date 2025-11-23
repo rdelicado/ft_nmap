@@ -12,10 +12,9 @@
 
 #include "ft_nmap.h"
 
-void	free_config(t_config *config)
-{
-	if (config->ip_address)
-		free(config->ip_address);
-	if (config->file_name)
-		free(config->file_name);
+void free_config(t_config *config) {
+  if (config->ip_address)
+    free(config->ip_address);
+  if (config->file_name)
+    free(config->file_name);
 }
