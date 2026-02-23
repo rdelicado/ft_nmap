@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 15:15:53 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/11/09 16:44:59 by rdelicad         ###   ########.fr       */
+/*   Updated: 2025/11/23 12:15:19 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,17 @@ typedef struct s_target
 	struct s_target	*next;
 }	t_target;
 
+typedef struct s_scan_result
+{
+	int				port;
+	char			*state;		// open, closed, filtered
+	char			*scan_type;	// SYN, UPD, etc
+}	t_scan_result;
+
 typedef struct s_config 
 {
-	char 		*ip_address;
+	char 		*target;		// Ip o hostname
+	char		*resolved_ip;	// Ip resuelta
 	char 		*file_name;
 	int			speedup;
 	int 		thread_count;
@@ -47,7 +55,7 @@ typedef struct s_config
 } t_config;
 
 // Parser
-void	print_help(void);
+void	show_help(void);
 int		parse_args(int ac, char **av, t_config *config);
 int		parse_scan(char *av, t_config *config);
 int		parse_ports(char *av, t_config *config);

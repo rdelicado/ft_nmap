@@ -76,13 +76,10 @@ $(NAME): $(OBJ_FILES)
 	@$(CC) $(CFLAGS) $(OBJ_FILES) -o $@ $(LIBS) $(THREAD_LIBS) 
 	@printf "$(GREEN)[✔] $(NAME) compilado correctamente!$(NC)\n"
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(dir $@)
 	@printf "$(BLUE)[⚙] Compilando: $<$(NC)\n"
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-$(OBJ_DIR):
-	@mkdir -p $@
 
 # --- Limpieza --- #
 clean:
