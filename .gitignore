@@ -24,3 +24,8 @@ vgcore.*
 # Directorios de prueba
 test/
 pcaps/
+
+# IA
+GEMINI.md
+gm.txt
+*.pdf

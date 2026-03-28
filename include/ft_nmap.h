@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 15:15:53 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/11/23 12:15:19 by rdelicad         ###   ########.fr       */
+/*   Updated: 2026/03/28 12:16:11 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,8 @@ void	free_targets(t_target *target);
 char	*resolve_hostname(const char *hostname);
 int		read_targets_from_file(const char *filename, t_config *config);
 int		build_target_list(t_config *config);
+
+/* --- SECCION DE REDES ---*/
+void	scan_target(t_target *target, t_config *config);
 
 #endif

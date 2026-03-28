@@ -54,6 +54,7 @@ void show_help()
 int main(int ac, char **av) 
 {
 	t_config config;
+	t_target *current = {0};
 
 	if (getuid() != 0)
 	{
@@ -66,6 +67,19 @@ int main(int ac, char **av)
 		return (show_help(), 1);
 
 	// Aquí irá la lógica del programa usando config
+	
+	if (config.targets == NULL && config.target != NULL)
+	{
+		config.targets = malloc(sizeof(t_target));
+		config.targets->ip = config.target;
+		config.targets->next = NULL;
+	}
+
+	while (current != NULL)
+	{
+		scan_target(current, &config);
+		current = current->next;
+	}
 
 	free_config(&config);
 	return (EXIT_SUCCESS);
