@@ -29,6 +29,7 @@ pcaps/
 GEMINI.md
 gm.txt
 *.pdf
+!ft_nmap.pdf
 openrouter/
 
 # Markdown que SI deben subirse (plan y reglas del proyecto)
