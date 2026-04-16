@@ -28,8 +28,10 @@ pcaps/
 *.pdf
 !ft_nmap.pdf
 
-# Markdown que SI deben subirse (plan y reglas del proyecto)
-!.github/**/*.md
-!PLAN_FT_NMAP.md
-!src/engine/ROADMAP_ENGINE.md
-!src/network/ROADMAP_NETWORK.md
+# No subir documentos de planificacion interna
+PLAN*.md
+GUIA*.md
+**/PLAN*.md
+**/GUIA*.md
+**/ROADMAP*.md
+PLAN_FT_NMAP.md

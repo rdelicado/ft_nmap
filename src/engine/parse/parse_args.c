@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 22:03:56 by rdelicad          #+#    #+#             */
-/*   Updated: 2026/02/23 17:23:05 by rdelicad         ###   ########.fr       */
+/*   Updated: 2026/04/16 20:04:30 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ static void init_config(t_config *config)
 {
 	int i;
 
-	config->target = NULL;
+	config->input_target = NULL;
 	config->resolved_ip = NULL;
 	config->file_name = NULL;
-	config->targets = NULL;
+	config->target_list = NULL;
 	config->speedup = 0;
 	config->thread_count = 0;
 	config->scan_syn = true;
@@ -87,7 +87,7 @@ int parse_args(int ac, char **av, t_config *config) {
 		i++;
 	}
 
-	if (!config->target && !config->file_name) {
+	if (!config->input_target && !config->file_name) {
 		printf("Error: no target specified (IP of --filename required)\n");
 		return (0);
 	}

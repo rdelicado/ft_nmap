@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 16:04:04 by rdelicad          #+#    #+#             */
-/*   Updated: 2026/02/23 17:18:53 by rdelicad         ###   ########.fr       */
+/*   Updated: 2026/04/16 20:04:30 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int parse_ip(char *av, t_config *config)
 {
 	if (!av)
 		return (0);
-	if (config->target) {
+	if (config->input_target) {
 		printf("Error: multiple targets specified\n");
 		return (0);
 	}
@@ -44,8 +44,8 @@ int parse_ip(char *av, t_config *config)
 		printf("Error: invalid IP address or hostname '%s'\n", av);
 		return (0);
 	}
-	config->target = strdup(av);
-	if (!config->target)
+	config->input_target = strdup(av);
+	if (!config->input_target)
 		return (0);
 	return (1);
 }

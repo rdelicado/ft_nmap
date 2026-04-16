@@ -1,8 +1,17 @@
 #include "ft_nmap.h"
 
-void	scan_target(t_target *target, t_config *config)
+int	scan_start(t_config *config)
 {
-	(void)config;
-	
-	printf("Simulando escaneo para la IP: %s\n", target->ip);
+	t_target	*target;
+
+	if (!config)
+		return (0);
+	target = config->target_list;
+	if (target)
+		printf("Simulando escaneo para la IP: %s\n", target->ip);
+	else if (config->input_target)
+		printf("Simulando escaneo para la IP: %s\n", config->input_target);
+	else
+		return (0);
+	return (1);
 }

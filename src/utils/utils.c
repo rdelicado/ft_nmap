@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 16:38:20 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/11/23 12:19:54 by rdelicad         ###   ########.fr       */
+/*   Updated: 2026/04/16 20:04:30 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ void	free_config(t_config *config)
 {
 	if (!config)
 		return ;
-	if (config->target)
-		free(config->target);
+	if (config->input_target)
+		free(config->input_target);
 	if (config->resolved_ip)
 		free(config->resolved_ip);
 	if (config->file_name)
 		free(config->file_name);
-	if (config->targets)
-		free_targets(config->targets);
+	if (config->target_list)
+		free_targets(config->target_list);
 }

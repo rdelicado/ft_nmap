@@ -51,35 +51,30 @@ void show_help()
 		printf("%s", help[i]);
 }
 
-int main(int ac, char **av) 
+int	is_root_user()
 {
-	t_config config;
-	t_target *current = {0};
-
 	if (getuid() != 0)
 	{
 		printf("Error: ft_nmap requires root privileges\n");
 		printf("Try: sudo ./ft_nmap ...\n");
-		return (1);
+		return (0);
 	}
+	return (1
+	);
+}
 
+int main(int ac, char **av) 
+{
+	t_config	config;
+
+	if (!is_root_user())
+		return (1);
 	if (!parse_args(ac, av, &config))
 		return (show_help(), 1);
 
-	// Aquí irá la lógica del programa usando config
-	
-	if (config.targets == NULL && config.target != NULL)
-	{
-		config.targets = malloc(sizeof(t_target));
-		config.targets->ip = config.target;
-		config.targets->next = NULL;
-	}
-
-	while (current != NULL)
-	{
-		scan_target(current, &config);
-		current = current->next;
-	}
+	// Empezamos escaneo
+	if (!scan_start(&config))
+		return (free_config(&config), 1);
 
 	free_config(&config);
 	return (EXIT_SUCCESS);

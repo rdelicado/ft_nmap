@@ -1,37 +1,46 @@
 # ft_nmap
 
-`ft_nmap` es un escáner de red avanzado inspirado en `nmap`, capaz de realizar escaneos de puertos utilizando diversas técnicas (SYN, NULL, FIN, XMAS, ACK, UDP) con soporte para multihilos.
+ft_nmap es un escaner de puertos en C, basado en la parte obligatoria del proyecto ft_nmap.
 
-## 📂 Estructura del Proyecto
+## Plan general de trabajo (solo este archivo)
 
-El código fuente está organizado en módulos funcionales para facilitar el desarrollo paralelo entre dos desarrolladores:
+Fuente de verdad:
+- ft_nmap.pdf
 
-### 📡 `src/network/` - Especialista en Redes (Persona A)
-Este módulo se encarga de la comunicación de bajo nivel con la red.
-- **Responsabilidades:**
-    - **Crafting de paquetes:** Construcción manual de cabeceras IP, TCP y UDP.
-    - **Captura con `libpcap`:** Configuración de filtros y captura de respuestas.
-    - **Lógica de Escaneo:** Implementación de las técnicas de escaneo (SYN, ACK, UDP, etc.).
-    - **Análisis de Estado:** Determinar si un puerto está `OPEN`, `CLOSED` o `FILTERED` según las respuestas.
+Arquitectura acordada:
+- Envio en paralelo con grupo de hilos.
+- Recepcion con multiplexacion usando select.
 
-### ⚙️ `src/engine/` - Especialista en Sistemas (Persona B)
-Este módulo actúa como el motor, orquestador y gestor de datos.
-- **Responsabilidades:**
-    - **Parsing avanzado (`src/engine/parse/`):** Validación de argumentos, puertos, IPs y archivos de entrada.
-    - **Multithreading:** Gestión de hilos con `pthread` para paralelizar el escaneo (`--speedup`).
-    - **Gestión de Objetivos:** Orquestar la lista de objetivos y repartirlos entre los hilos.
-    - **Reportería:** Recolección de resultados y generación de la tabla final de salida.
-    - **Manejo de Señales:** Limpieza de recursos y salida controlada (SIGINT).
+## Reparto de trabajo
 
-### 🛠️ Otros directorios y archivos clave:
-- `src/main.c`: Punto de entrada principal del programa. Se encarga de la comprobación de privilegios de root e inicia el flujo de parsing.
-- `src/utils/`: Funciones de utilidad genéricas (limpieza de memoria, impresión formateada, etc.).
-- `include/`: Contiene `ft_nmap.h` con las estructuras compartidas (`t_config`, `t_target`) y todos los prototipos.
+### Persona A (NETWORK)
+- Implementar envio y recepcion de paquetes reales.
+- Gestionar captura con pcap y tiempos de espera.
+- Clasificar estados por puerto y tipo de escaneo.
+- Rellenar resultados por objetivo para que ENGINE los pueda imprimir.
 
----
+### Persona B (ENGINE)
+- Validar argumentos y preparar configuracion.
+- Construir lista final de objetivos desde IP unica o fichero.
+- Lanzar scan_start una sola vez desde main.
+- Mostrar salida final (puerto, estado, servicio y tiempo total).
+- Controlar errores y liberar memoria correctamente.
 
-## 🚀 Cómo empezar
-Si eres un nuevo desarrollador en el proyecto:
-1. Identifica tu carpeta de trabajo (`src/network/` o `src/engine/`).
-2. Consulta `include/ft_nmap.h` para conocer las estructuras comunes y declarar tus funciones.
-3. El `Makefile` ya está configurado para compilar todos los archivos `.c` dentro de estas carpetas automáticamente.
+## Flujo del programa
+
+1. Comprobar permisos de administrador.
+2. Parsear y validar argumentos.
+3. Preparar lista final de objetivos.
+4. Ejecutar scan_start.
+5. Recibir resultados.
+6. Imprimir salida final.
+7. Liberar memoria.
+
+## Requisitos obligatorios a recordar
+
+- Escaneos: SYN, NULL, ACK, FIN, XMAS y UDP.
+- Si no se indica scan, ejecutar todos.
+- Puertos por defecto: 1-1024.
+- Maximo de puertos por ejecucion: 1024.
+- Speedup por defecto: 0. Maximo: 250.
+- No usar el nmap real.
