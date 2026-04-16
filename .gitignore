@@ -20,6 +20,7 @@ vgcore.*
 *~
 .vscode/
 .DS_Store
+.github/
 
 # Directorios de prueba
 test/
