@@ -30,8 +30,7 @@ pcaps/
 !ft_nmap.pdf
 
 # No subir documentos de planificacion interna
-PLAN*.md
+
 GUIA*.md
-**/PLAN*.md
 **/GUIA*.md
-**/ROADMAP*.md
+
