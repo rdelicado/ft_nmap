@@ -82,6 +82,7 @@ void	free_targets(t_target *target);	// libera la lista de objetivos
 char	*resolve_hostname(const char *hostname);	// resuelve FQDN a IPv4
 int		read_targets_from_file(const char *filename, t_config *config);	// carga objetivos desde fichero
 int		build_target_list(t_config *config);	// construye la lista final de objetivos
+int		add_target_node(t_config *config, const char *hostname, const char *ip);	// anade un objetivo a la lista
 
 // ===== ENGINE OUTPUT FUNCTIONS =====
 void	print_target_results(t_target *target);	// imprime resultados de un objetivo
