@@ -12,28 +12,24 @@
 
 #include "ft_nmap.h"
 
-static void disable_all_ports(t_config *config) {
-  int i;
-
-  i = 0;
-  while (i <= 1024) {
-    config->ports[i] = 0;
-    i++;
-  }
+static void disable_all_ports(t_config *config)
+{
+  memset(config->ports, 0, sizeof(config->ports));
 }
 
-static int process_single(char *port_str, t_config *config) {
+static int process_single(char *port_str, t_config *config)
+{
   int port;
 
   port = atoi(port_str);
   if (port < 1 || port > 65535)
-    return (0);
-  if (port <= 65535)
-    config->ports[port] = 1;
+	return (0);
+  config->ports[port] = 1;
   return (1);
 }
 
-static int process_range(char *range_str, t_config *config) {
+static int process_range(char *range_str, t_config *config)
+{
   char *range;
   int start;
   int end;
@@ -41,39 +37,47 @@ static int process_range(char *range_str, t_config *config) {
 
   range = strchr(range_str, '-');
   if (!range)
-    return (0);
+	return (0);
   *range = '\0';
   start = atoi(range_str);
   end = atoi(range + 1);
   if (start < 1 || start > 65535 || end < 1 || end > 65535 || start > end)
-    return (0);
+	return (0);
   i = start;
   while (i <= end && i <= 65535) {
-    config->ports[i] = 1;
-    i++;
+	config->ports[i] = 1;
+	i++;
   }
   return (1);
 }
 
-int parse_ports(char *av, t_config *config) {
+int parse_ports(char *av, t_config *config)
+{
   char *list_port;
   char *single;
   char *range;
 
   if (!av)
-    return (0);
+	return (0);
   disable_all_ports(config);
   list_port = strdup(av);
   if (!list_port)
-    return (0);
+	return (0);
   single = strtok(list_port, ",");
   while (single != NULL) {
-    range = strchr(single, '-');
-    if (range != NULL)
-      process_range(single, config);
-    else
-      process_single(single, config);
-    single = strtok(NULL, ",");
+	range = strchr(single, '-');
+	if (range != NULL) {
+		if (!process_range(single, config)) {
+			free(list_port);
+			return (0);
+		}
+	} else {
+		if (!process_single(single, config)) {
+			free(list_port);
+			return (0);
+		}
+	}
+	single = strtok(NULL, ",");
   }
   free(list_port);
   return (1);

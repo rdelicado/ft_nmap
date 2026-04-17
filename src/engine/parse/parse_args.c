@@ -53,7 +53,7 @@ int parse_args(int ac, char **av, t_config *config) {
 			if (!parse_scan(av[i + 1], config))
 				return (0);
 			i++;
-		} else if (strcmp(av[i], "--port") == 0) {
+		} else if (strcmp(av[i], "--ports") == 0) {
 			if (i + 1 >= ac)
 				return (0);
 			if (!parse_ports(av[i + 1], config))
@@ -65,7 +65,7 @@ int parse_args(int ac, char **av, t_config *config) {
 			if (!parse_speedup(av[i + 1], config))
 				return (0);
 			i++;
-		} else if (strcmp(av[i], "--filename") == 0) {
+		} else if (strcmp(av[i], "--file") == 0) {
 			if (i + 1 >= ac)
 				return (0);
 			if (!parse_file(av[i + 1], config))
@@ -88,8 +88,23 @@ int parse_args(int ac, char **av, t_config *config) {
 	}
 
 	if (!config->input_target && !config->file_name) {
-		printf("Error: no target specified (IP of --filename required)\n");
+		printf("Error: no target specified (IP or --file required)\n");
 		return (0);
 	}
+
+    // Contar puertos y validad limite
+    config->ports_count = 0;
+    i = 0;
+    while (i < 65536)
+    {
+        if (config->ports[i])
+            config->ports_count++;
+        i++;
+    }
+    if (config->ports_count > 1024)
+    {
+        printf("Error: maximum 1024 ports allowed\n");
+        return (0);
+    }
 	return (1);
 }

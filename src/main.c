@@ -1,5 +1,12 @@
 #include "ft_nmap.h"
 
+volatile sig_atomic_t g_signal = 0;
+
+void signal_handler(int signum)
+{
+	g_signal = signum;
+}
+
 void show_help() 
 {
 	char *help[] = {
@@ -17,7 +24,7 @@ void show_help()
 		"  --file <filename>\t\t: File containing list of targets\n"
 		"\t\t\t\t  One target per line\n",
 		"SCAN TECHNIQUES:\n",
-		"  --scan <type(s)>\t\t: Scan techniques to use (comma-separeted)\n",
+		"  --scan <type(s)>\t\t: Scan techniques to use (comma-separated)\n",
 		"\t\t\t\t: Available types:\n",
 		"\t\t\t\t\tSYN\t:TCP SYN scan\n",
 		"\t\t\t\t\tNULL\t:TCP NULL scan\n",
@@ -37,7 +44,7 @@ void show_help()
 		"\t\t\t\t    Mixed\t: 1-10,22,80,443\n",
 		"\t\t\t\t  Default: 1-1024\n",
 		"\t\t\t\t  Maximum: 1024 ports total\n",
-		"TIMING ADN PERFORMANCE:\n",
+		"TIMING AND PERFORMANCE:\n",
 		"  --speedup <number>\t\t: Number of parallel threads\n",
 		"\t\t\t\t  Range: 0-250\n",
 		"\t\t\t\t  Default: 0 (sequential scan)\n",
@@ -65,17 +72,34 @@ int	is_root_user()
 
 int main(int ac, char **av) 
 {
-	t_config	config;
+	t_config	    config;
+    struct timeval  start, end;
 
+    // Configuracion inicial y parseo
+    signal(SIGINT, signal_handler);
 	if (!is_root_user())
 		return (1);
 	if (!parse_args(ac, av, &config))
 		return (show_help(), 1);
 
-	// Empezamos escaneo
-	if (!scan_start(&config))
-		return (free_config(&config), 1);
+    // Preparacion de objetivos
+    //if (!build_target_list(&config)) -> falta implementar
+    //    return (free_config(&config));
 
-	free_config(&config);
+    // Imprimir configuracion inicial
+    // print_scan_config(&config); -> falta implementar
+
+    // Ejecucion del escaneo
+    gettimeofday(&start, NULL);
+    if (!scan_start(&config))
+        return (free_config(&config), 1);
+    gettimeofday(&end, NULL);
+
+	// Imprimir resultados
+	// print_scan_time(start, end); -> falta implementar
+    // print_all_results(config.target_list); -> falta implementar
+
+    // Liberar memoria
+    free_config(&config);
 	return (EXIT_SUCCESS);
 }

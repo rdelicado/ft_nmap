@@ -12,7 +12,8 @@
 
 #include "ft_nmap.h"
 
-void disable_all_scans(t_config *config) {
+void disable_all_scans(t_config *config)
+{
   config->scan_ack = false;
   config->scan_fin = false;
   config->scan_null = false;
@@ -21,37 +22,45 @@ void disable_all_scans(t_config *config) {
   config->scan_xmas = false;
 }
 
-void process_scan_token(char *token, t_config *config) {
+int process_scan_token(char *token, t_config *config)
+{
   if (strcmp(token, "ACK") == 0)
-    config->scan_ack = true;
+	config->scan_ack = true;
   else if (strcmp(token, "FIN") == 0)
-    config->scan_fin = true;
+	config->scan_fin = true;
   else if (strcmp(token, "NULL") == 0)
-    config->scan_null = true;
+	config->scan_null = true;
   else if (strcmp(token, "SYN") == 0)
-    config->scan_syn = true;
+	config->scan_syn = true;
   else if (strcmp(token, "UDP") == 0)
-    config->scan_udp = true;
+	config->scan_udp = true;
   else if (strcmp(token, "XMAS") == 0)
-    config->scan_xmas = true;
-  else
-    printf("Invalid scan type: %s\n", token);
+	config->scan_xmas = true;
+  else {
+	printf("Invalid scan type: %s\n", token);
+	return (0);
+  }
+  return (1);
 }
 
-int parse_scan(char *av, t_config *config) {
+int parse_scan(char *av, t_config *config)
+{
   char *list_scan;
   char *token;
 
   if (!av)
-    return (0);
+	return (0);
   disable_all_scans(config);
   list_scan = strdup(av);
   if (!list_scan)
-    return (0);
+	return (0);
   token = strtok(list_scan, ",");
   while (token != NULL) {
-    process_scan_token(token, config);
-    token = strtok(NULL, ",");
+	if (!process_scan_token(token, config)) {
+		free(list_scan);
+		return (0);
+	}
+	token = strtok(NULL, ",");
   }
   free(list_scan);
   return (1);

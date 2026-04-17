@@ -15,6 +15,7 @@
 void free_targets(t_target *target) 
 {
 	t_target	*tmp;
+    int         i;
 
 	while (target)
 	{
@@ -23,8 +24,25 @@ void free_targets(t_target *target)
 			free(target->hostname);
 		if (target->ip)
 			free(target->ip);
-		free(target);
-		target = tmp;
+		if (target->output)
+		{
+            i = 0;
+            while (i < target->output_count)
+            {
+                if (target->output[i])
+                {
+                    if (target->output[i]->state)
+                        free(target->output[i]->state);
+                    if (target->output[i]->scan_type)
+                        free(target->output[i]->scan_type);
+                    free(target->output[i]);
+                }
+                i++;
+            }
+            free(target->output);
+        }
+        free(target);
+        target = tmp;
 	}
 }
 

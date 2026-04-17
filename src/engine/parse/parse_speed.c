@@ -18,8 +18,8 @@ int parse_speedup(char *av, t_config *config) {
   if (!av)
     return (0);
   value = atoi(av);
-  if (value < 1 || value > 250) {
-    printf("Error: speedup must be between 1 and 250\n\n");
+  if (value < 0 || value > 250) {
+    printf("Error: speedup must be between 0 and 250\n\n");
     return (0);
   }
   config->speedup = value;

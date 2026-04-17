@@ -20,6 +20,10 @@
 # include <stdbool.h>
 # include <arpa/inet.h>
 # include <netdb.h>
+# include <signal.h>
+# include <sys/time.h>
+
+extern volatile sig_atomic_t g_signal;
 
 // Resultado individual por puerto + tipo de escaneo
 typedef struct s_scan_result
@@ -59,6 +63,7 @@ typedef struct s_config
 	bool 			scan_udp;		// activar escaneo UDP
 	bool 			show_help;		// mostrar ayuda y salir
 	uint8_t 		ports[65536];	// tabla de puertos marcados para escanear
+    int             ports_count;    // cantidad de puertos marcados
 	t_target		*target_list;	// lista enlazada de objetivos finales
 } t_config;
 
