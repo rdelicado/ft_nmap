@@ -77,8 +77,8 @@ int main(int ac, char **av)
 
     // Configuracion inicial y parseo
     signal(SIGINT, signal_handler);
-	/* if (!is_root_user())
-		return (1); */
+	if (!is_root_user())
+		return (1);
 	if (!parse_args(ac, av, &config))
 		return (1);
 
@@ -93,18 +93,18 @@ int main(int ac, char **av)
     config.ports_count = count;
 
     // Preparacion de objetivos
-    /* if (build_target_list(&config) < 0) {
+    if (build_target_list(&config) < 0) {
         free_config(&config);
         return 1;
-    } */
+    }
 
     // Imprimir configuracion inicial
     // print_scan_config(&config); -> falta implementar
 
     // Ejecucion del escaneo
     gettimeofday(&start, NULL);
-    if (!scan_start(&config))
-        return (free_config(&config), 1);
+    /* if (!scan_start(&config))
+        return (free_config(&config), 1); */
     gettimeofday(&end, NULL);
 
 	// Imprimir resultados

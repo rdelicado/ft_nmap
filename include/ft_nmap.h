@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 15:15:53 by rdelicad          #+#    #+#             */
-/*   Updated: 2026/04/16 20:04:30 by rdelicad         ###   ########.fr       */
+/*   Updated: 2026/04/18 12:37:24 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef struct s_target
 typedef struct s_config 
 {
 	char 			*input_target;	// Ip o hostname de entrada unica
-	char			*resolved_ip;	// Ip resuelta
 	char 			*file_name;		// ruta del fichero con objetivos
 	int				speedup;		// nivel de concurrencia solicitado
 	int 			thread_count;	// numero real de hilos usados

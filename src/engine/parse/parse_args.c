@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/28 22:03:56 by rdelicad          #+#    #+#             */
-/*   Updated: 2026/04/18 10:04:18 by rdelicad         ###   ########.fr       */
+/*   Updated: 2026/04/18 12:42:41 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void init_config(t_config *config)
 	int i;
 
 	config->input_target = NULL;
-	config->resolved_ip = NULL;
 	config->file_name = NULL;
 	config->target_list = NULL;
 	config->speedup = 0;
