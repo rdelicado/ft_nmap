@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/09 15:29:51 by rdelicad          #+#    #+#             */
-/*   Updated: 2025/11/09 15:51:19 by rdelicad         ###   ########.fr       */
+/*   Updated: 2026/04/18 09:52:56 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 int parse_file(char *av, t_config *config) {
   if (!av)
     return (0);
+  if (config->input_target) {
+    printf("Error: cannot specify both IP and --file\n");
+    return (0);
+  }
   if (access(av, F_OK) == -1) {
     printf("Error: file '%s' does not exist\n", av);
     return (0);

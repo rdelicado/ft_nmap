@@ -77,10 +77,10 @@ int main(int ac, char **av)
 
     // Configuracion inicial y parseo
     signal(SIGINT, signal_handler);
-	if (!is_root_user())
-		return (1);
+	/* if (!is_root_user())
+		return (1); */
 	if (!parse_args(ac, av, &config))
-		return (show_help(), 1);
+		return (1);
 
     int count = 0;
     for (int i = 0; i < 65536; i++)
@@ -93,10 +93,10 @@ int main(int ac, char **av)
     config.ports_count = count;
 
     // Preparacion de objetivos
-    if (build_target_list(&config) < 0) {
+    /* if (build_target_list(&config) < 0) {
         free_config(&config);
         return 1;
-    }
+    } */
 
     // Imprimir configuracion inicial
     // print_scan_config(&config); -> falta implementar
