@@ -6,7 +6,7 @@
 /*   By: rdelicad <rdelicad@gmail.com>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/26 15:15:53 by rdelicad          #+#    #+#             */
-/*   Updated: 2026/04/18 12:37:24 by rdelicad         ###   ########.fr       */
+/*   Updated: 2026/04/19 12:15:05 by rdelicad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int	        build_target_list(t_config *config);
 int         read_targets_from_file(const char *filename, t_config *config);
 
 // ===== OUTPUT & PRINTING =====
+void		print_scan_config(const t_config *config);
+void		print_scan_time(struct timeval start, struct timeval end);
 void	    print_target_results(t_target *target);
 void	    print_all_results(t_target *target_list);
 

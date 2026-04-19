@@ -53,17 +53,6 @@ int		build_target_list(t_config *config)
         if (read_targets_from_file(config->file_name, config) == 0)
             return (0);
     }
-    
-
-    // Debugg
-    t_target *current = config->target_list;
-    printf("\n=== Targets to scan ---\n");
-    while (current)
-    {
-        printf("Target: %s (%s)\n", current->hostname, current->ip);
-        current = current->next;
-    }
-    printf("----------------------\n\n");
 
     return (1);
 }

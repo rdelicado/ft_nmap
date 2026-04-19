@@ -89,7 +89,7 @@ int main(int ac, char **av)
     }
 
     // Imprimir configuracion inicial
-    // print_scan_config(&config); -> falta implementar
+	// print_scan_config(&config); -> falta implementar
 
     // Ejecucion del escaneo
     gettimeofday(&start, NULL);
