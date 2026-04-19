@@ -58,7 +58,7 @@ void show_help()
 		printf("%s", help[i]);
 }
 
-int	is_root_user()
+static int	is_root_user()
 {
 	if (getuid() != 0)
 	{

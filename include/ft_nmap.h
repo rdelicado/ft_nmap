@@ -66,29 +66,43 @@ typedef struct s_config
 	t_target		*target_list;	// lista enlazada de objetivos finales
 } t_config;
 
-// ===== PARSER FUNCTIONS =====
-void	show_help(void);	// imprime el uso del programa
-int		parse_args(int ac, char **av, t_config *config);	// parsea toda la CLI
-int		parse_scan(char *av, t_config *config);	// parsea tipos de escaneo
-int		parse_ports(char *av, t_config *config);	// parsea rango/lista de puertos
-int		parse_speedup(char *av, t_config *config);	// parsea valor de speedup
-int		parse_file(char *av, t_config *config);	// parsea fichero de objetivos
-int		parse_ip(char *av, t_config *config);	// parsea objetivo IP/FQDN unico
 
-// ===== UTILS FUNCTIONS =====
-void	free_config(t_config *config);	// libera toda la configuracion global
-void	free_targets(t_target *target);	// libera la lista de objetivos
-char	*resolve_hostname(const char *hostname);	// resuelve FQDN a IPv4
-int		read_targets_from_file(const char *filename, t_config *config);	// carga objetivos desde fichero
-int		build_target_list(t_config *config);	// construye la lista final de objetivos
-int		add_target_node(t_config *config, const char *hostname, const char *ip);	// anade un objetivo a la lista
+/* -------------------------------------------------------------------------- */
+/*                               ❖ E N G I N E ❖                              */
+/* -------------------------------------------------------------------------- */
 
-// ===== ENGINE OUTPUT FUNCTIONS =====
-void	print_target_results(t_target *target);	// imprime resultados de un objetivo
-void	print_all_results(t_target *target_list);	// imprime resultados de todos los objetivos
+// ===== PARSER =====
+void	    show_help(void);
+int		    parse_args(int ac, char **av, t_config *config);
+int		    parse_scan(char *av, t_config *config);
+int		    parse_ports(char *av, t_config *config);
+int		    parse_speedup(char *av, t_config *config);
+int		    parse_file(char *av, t_config *config);
+int		    parse_ip(char *av, t_config *config);
 
-// ===== NETWORK SCAN FUNCTIONS =====
-int		scan_start(t_config *config);	// inicia el flujo completo de escaneo
+// ===== TARGET LIST BUILDER =====
+t_target    *create_target(char *ip);
+int	        build_target_list(t_config *config);
+int         read_targets_from_file(const char *filename, t_config *config);
 
+// ===== OUTPUT & PRINTING =====
+void	    print_target_results(t_target *target);
+void	    print_all_results(t_target *target_list);
+
+
+/* -------------------------------------------------------------------------- */
+/*                              ❖ N E T W O R K ❖                             */
+/* -------------------------------------------------------------------------- */
+
+int		    scan_start(t_config *config);
+
+
+/* -------------------------------------------------------------------------- */
+/*                                ❖ U T I L S ❖                               */
+/* -------------------------------------------------------------------------- */
+
+char	    *resolve_hostname(const char *hostname);
+void	    free_config(t_config *config);
+void	    free_targets(t_target *target);
 
 #endif

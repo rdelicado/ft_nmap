@@ -34,3 +34,7 @@ pcaps/
 GUIA*.md
 **/GUIA*.md
 
+# Archivos de configuración de herramientas (clangd/LSP)
+compile_flags.txt
+compile_commands.json
+.clangd
