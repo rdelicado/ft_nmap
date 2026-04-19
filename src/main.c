@@ -82,18 +82,8 @@ int main(int ac, char **av)
 	if (!parse_args(ac, av, &config))
 		return (1);
 
-    int count = 0;
-    for (int i = 0; i < 65536; i++)
-        if (config.ports[i]) count++;
-    if (count > 1024) {
-        printf("Error: maximum 1024 ports allowed\n");
-        free_config(&config);
-        return 1;
-    }
-    config.ports_count = count;
-
     // Preparacion de objetivos
-    if (build_target_list(&config) < 0) {
+	if (!build_target_list(&config)) {
         free_config(&config);
         return 1;
     }
